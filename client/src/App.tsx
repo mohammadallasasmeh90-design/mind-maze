@@ -12,7 +12,15 @@ const typeMeta: Record<GameType, { label: string; color: string; icon: string }>
 
 function App() {
   const [page, setPage] = useState("home");
-  const [player, setPlayer] = useState<PlayerState>(() => loadPlayer());
+  const [player, setPlayer] = useState<PlayerState>(() => {
+    const saved = loadPlayer();
+    try {
+      if (!localStorage.getItem("mind-maze-player-v1") && navigator.language.toLowerCase().startsWith("ar")) {
+        return { ...saved, language: "ar" };
+      }
+    } catch { /* keep the safe fallback */ }
+    return saved;
+  });
   const [game, setGame] = useState<"idle" | "playing" | "done">("idle");
   const [question, setQuestion] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
@@ -47,7 +55,7 @@ function App() {
   function shareScore() { analytics.track("share_clicked"); const text = `I scored ${totalScore.toLocaleString()} in Mind Maze. Can you beat me?`; if (navigator.share) navigator.share({ title: "Mind Maze", text }); else navigator.clipboard?.writeText(text); }
 
   return <div dir={language === "ar" ? "rtl" : "ltr"} className="app-shell" style={{ backgroundImage: `linear-gradient(180deg, rgba(8,19,43,.13), rgba(8,19,43,1) 60%), url(${bg})` }}>
-    <header className="topbar"><button className="brand" onClick={() => { setPage("home"); setGame("idle"); }}><img src={mark} alt="Mind Maze" /><span><strong>mind maze</strong><small>train your edge</small></span></button><div className="top-actions"><div className="coin-pill"><Coins size={15} /> {player.coins.toLocaleString()}</div><button className="icon-btn" aria-label="Settings" onClick={() => setShowSettings(true)}><Settings size={18} /></button></div></header>
+    <header className="topbar"><button className="brand" onClick={() => { setPage("home"); setGame("idle"); }}><img src={mark} alt="Mind Maze" /><span><strong>mind maze</strong><small>train your edge</small></span></button><div className="top-actions"><button className="language-switch" aria-label="Change language" onClick={() => setPlayer(prev => ({ ...prev, language: prev.language === "ar" ? "en" : "ar" }))}>{language === "ar" ? "EN" : "عربي"}</button><div className="coin-pill"><Coins size={15} /> {player.coins.toLocaleString()}</div><button className="icon-btn" aria-label="Settings" onClick={() => setShowSettings(true)}><Settings size={18} /></button></div></header>
     <main className="content">
       {page === "home" && <HomeView language={language} player={player} levelProgress={levelProgress} startGame={startGame} setPage={setPage} />}
       {page === "play" && <PlayView language={language} game={game} current={current} question={question} total={challenges.length} selected={selected} showHint={showHint} setShowHint={setShowHint} answer={answer} totalScore={totalScore} resetDaily={resetDaily} startGame={startGame} shareScore={shareScore} />}

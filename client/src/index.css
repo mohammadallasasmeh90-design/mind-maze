@@ -25,3 +25,8 @@ button:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
 @media (max-width: 720px) { .topbar { padding: 19px 18px; }.content { width: min(100% - 36px, 1050px); }.home-view { padding-top: 25px; }.hero { padding-bottom: 38px; }.hero h1 { font-size: 55px; }.stats-row { gap: 9px; }.stat-card { padding: 12px; }.progress { width: 100px; }.challenge-grid { grid-template-columns: repeat(2, 1fr); }.challenge-card { min-height: 138px; }.challenge-card:last-child { grid-column: span 2; min-height: 110px; }.section-block { margin-top: 45px; }.play-screen { padding-top: 28px; }.challenge-label { margin-top: 61px; }.play-footer { margin-top: 52px; }.metric-grid { grid-template-columns: repeat(2, 1fr); }.profile-view, .store-view { padding-top: 25px; } }
 @media (max-width: 400px) { .hero h1 { font-size: 48px; }.coin-pill { padding: 8px 9px; }.stats-row { grid-template-columns: 1fr; }.bottom-nav button { min-width: 68px; }.content { width: min(100% - 28px, 1050px); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+.language-switch { min-width: 42px; height: 30px; padding: 0 9px; border: 1px solid rgba(94,211,173,.45); border-radius: 8px; background: rgba(94,211,173,.12); color: var(--mint); font: 10px 'DM Mono'; transition: background .18s, transform .18s; }
+.language-switch:hover { background: rgba(94,211,173,.22); transform: translateY(-1px); }
+.app-shell[dir="rtl"] .brand { text-align: right; }
+.app-shell[dir="rtl"] .top-actions { direction: ltr; }
