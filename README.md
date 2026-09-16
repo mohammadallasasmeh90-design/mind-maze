@@ -1,4 +1,6 @@
 # Mind Maze – Brain Training Game
+[▶ فتح اللعبة مباشرة](https://mindmaze-xmnvanuq.manus.space)
+
 
 Mind Maze is a mobile-first brain-training web MVP built with React, TypeScript, Vite, and Tailwind. It is designed around a short daily route: five quick challenges across Memory, Logic, Attention, Speed, and Pattern. The core game is playable offline-friendly and stores progression locally in the browser.
 
