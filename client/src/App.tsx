@@ -34,8 +34,9 @@ function App() {
   const language = player.language;
 
   useEffect(() => { savePlayer(player); }, [player]);
-  useEffect(() => { if (new URLSearchParams(window.location.search).has("demo")) { setGame("playing"); setPage("play"); }
-    if (new URLSearchParams(window.location.search).get("lang") === "ar") setPlayer(prev => ({ ...prev, language: "ar" })); }, []);
+  useEffect(() => { const params = new URLSearchParams(window.location.search); if (params.has("demo")) { setGame("playing"); setPage("play"); }
+    if (params.get("lang") === "ar") setPlayer(prev => ({ ...prev, language: "ar" }));
+    if (params.get("settings") === "1") setShowSettings(true); }, []);
 
   function startGame() { analytics.track("game_started"); setGame("playing"); setQuestion(0); setAnswers([]); setSelected(null); setShowHint(false); setPage("play"); }
   function answer(option: string) {
@@ -63,7 +64,7 @@ function App() {
       {page === "store" && <StoreView language={language} />}
     </main>
     <nav className="bottom-nav">{navItems.map(item => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => setPage(item.id)}><Icon size={19} /><span>{t(language, item.id as "home" | "profile" | "store")}</span></button>; })}</nav>
-    {showSettings && <SettingsModal player={player} setPlayer={setPlayer} close={() => setShowSettings(false)} />}
+    {showSettings && <SettingsModal key={language} player={player} setPlayer={setPlayer} close={() => setShowSettings(false)} />}
   </div>;
 }
 
